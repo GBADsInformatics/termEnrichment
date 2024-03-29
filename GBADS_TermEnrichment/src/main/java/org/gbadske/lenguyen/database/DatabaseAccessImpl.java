@@ -64,8 +64,8 @@ public class DatabaseAccessImpl implements DatabaseAccess {
 	public List<EnrichedTerm>searchAllEnrichedTerm(Long termId, String country, String year){
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		String query = "SELECT enriched_term.* FROM term, enriched_term WHERE term.term_id = enriched_term.term_id"
-				+ " and term.term_id = :term_id and term.country = :country and term.t_year = :year ;";
-		namedParameters.addValue("term_id", termId);
+				+ " and term.termId = :term_id and term.country = :country and term.termYear = :year ;";
+		namedParameters.addValue("termId", termId);
 		namedParameters.addValue("country", country);
 		namedParameters.addValue("year", year);
 
@@ -109,7 +109,7 @@ public class DatabaseAccessImpl implements DatabaseAccess {
 		KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 		String query = "INSERT INTO term(species, country, t_year) VALUES(:species,:country,:year);";
 		namedParameters.addValue("species", term.getSpecies());
-		namedParameters.addValue("year", term.getT_year());
+		namedParameters.addValue("year", term.getTermYear());
 		namedParameters.addValue("country", term.getCountry());
 		jdbc.update(query, namedParameters, generatedKeyHolder);
 		return generatedKeyHolder.getKey().longValue();

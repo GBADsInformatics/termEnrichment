@@ -36,7 +36,7 @@ public class DatabaseAccessTest {
 		Term term1 = new Term();
 		term1.setCountry("Canada");
 		term1.setSpecies("Cattle");
-		term1.setT_year("2020");
+		term1.setTermYear("2020");
 		// when
 		Long id = da.save(term1);
 		

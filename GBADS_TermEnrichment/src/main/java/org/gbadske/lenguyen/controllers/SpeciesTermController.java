@@ -30,8 +30,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * This class provides the Rest API
  */
-@RestController
-@RequestMapping("/api")
+//@RestController
+//@RequestMapping("/api")
 public class SpeciesTermController {
 	@Autowired
 	DatabaseAccess da;
@@ -73,7 +73,7 @@ public class SpeciesTermController {
 						//Search database and return
 						List<Term> termList = da.searchTermByNameCountryYear(species, country, year);
 						termList.forEach(t->{
-							List<EnrichedTerm> enrichedTermList = da.searchAllEnrichedTerm(t.getTerm_id());
+							List<EnrichedTerm> enrichedTermList = da.searchAllEnrichedTerm(t.getTermId());
 		
 							enrichedTermList.forEach(et-> {
 								  
