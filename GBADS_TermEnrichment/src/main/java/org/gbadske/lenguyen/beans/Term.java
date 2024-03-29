@@ -16,14 +16,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * This bean class is to capture information in Term table.
- * `term_id` BIGINT NOT NULL AUTO_INCREMENT,
-   `species` VARCHAR(45) NOT NULL,
-   `superClass`  VARCHAR(45) NOT NULL,
-   `country` VARCHAR(45) NULL,
-   `t_year` VARCHAR(45) NULL,
-   `description` VARCHAR(400) NULL,
-   `ontologyVersion` VARCHAR(200) NOT NULL,
+ * This bean Entity class is to capture information in Term table.
  */
 
 @Entity

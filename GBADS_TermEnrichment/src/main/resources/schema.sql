@@ -26,3 +26,5 @@ CREATE TABLE IF NOT EXISTS `termdb`.`term` (
   PRIMARY KEY (`term_id`))
 ENGINE = InnoDB;
 
+
+
