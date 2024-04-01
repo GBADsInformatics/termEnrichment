@@ -16,13 +16,13 @@ DROP TABLE IF EXISTS `termdb`.`term` ;
 
 CREATE TABLE IF NOT EXISTS `termdb`.`term` (
   `term_id` BIGINT NOT NULL AUTO_INCREMENT,
-  `species` VARCHAR(45) NOT NULL,
-  `super_class`  VARCHAR(45) NOT NULL,
-  `country` VARCHAR(45) NULL,
-  `term_year` VARCHAR(45) NULL,
-  `data_source` VARCHAR(300) NULL,
-  `description` VARCHAR(400) NULL,
-  `ontology_version` VARCHAR(200) NOT NULL,
+  `species` VARCHAR(150) NOT NULL,
+  `super_class`  VARCHAR(50) NOT NULL,
+  `country` VARCHAR(300) NULL,
+  `term_year` VARCHAR(10) NULL,
+  `data_source` VARCHAR(500) NULL,
+  `description` VARCHAR(1500) NULL,
+  `ontology_version` VARCHAR(1500) NOT NULL,
   PRIMARY KEY (`term_id`))
 ENGINE = InnoDB;
 
