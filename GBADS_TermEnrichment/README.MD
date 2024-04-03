@@ -35,11 +35,12 @@ gbads.api.password=1234
 	Version: 2023-09 (4.29.0)
 	Build id: 20230907-1323
 2. Eclipse Market place Install: Spring Tools 4
-3. Add Spring Repos: H2 Database, Spring Boot DevTools, Lombok, Spring Data JDBC, Spring Web, MySQL Driver, Thymeleaf, springdoc-openapi-starter-webmvc-ui  
+3. Add Spring Repos: H2 Database, Spring Boot DevTools, Lombok, Spring Data JDBC, Spring Web, MySQL Driver, Thymeleaf, springdoc-openapi-starter-webmvc-ui, Spring security, rdf4j  
 4. Create database using schema.sql	 
 5. To change address of the MySQL database go to: application.properties in src/main/resources
 6. To Run the project: Right Click the project and Run AS Spring Boot APP
 7. To Generate the JAR: Right Click the project and Run AS Maven Verify
+
 
 ## Status
 
@@ -65,7 +66,7 @@ Editor preferences are available in the [editor config](https://reponame/blob/ma
 
 **Creator 1**
 
-- <https://github.com/usernamecreator1>
+- <https://github.com/lenguyen2022>
 
 ## Thanks
 
@@ -73,4 +74,4 @@ Some Text
 
 ## Copyright and license
 
-Code and documentation copyright 2023-2024 the authors. Code released under the [MIT License](https://reponame/blob/master/LICENSE).
+Code and documentation copyright 2023-2024 the authors. Code released under the [License](https://reponame/blob/master/LICENSE).
