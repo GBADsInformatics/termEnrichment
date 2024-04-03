@@ -13,19 +13,19 @@
 ## Quick start
 
 ** Deployment **
-** Change application.properties **
+Change application.properties 
 These properties need to the change
-#database setting
+- database setting
 spring.datasource.url=jdbc:mysql://localhost:3307/termdb
 spring.datasource.username=root
 spring.datasource.password=
-#embeded tomcat
+- embeded tomcat
 server.address=0.0.0.0
 server.port=8080
-#sparql setting
+- sparql setting
 sparql.endpoint.url=http://localhost:8888/sparql
 ontology.gbads.prefix=https://gbadske.org/ontologies/2024/2/SpeciesTerm#
-#webservices api username passwords setting
+- webservices api username passwords setting
 gbads.api.username=le
 gbads.api.password=1234
 
