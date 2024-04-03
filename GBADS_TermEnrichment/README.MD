@@ -15,19 +15,19 @@
 ** Deployment **
 Change application.properties 
 These properties need to the change
-- database setting
-spring.datasource.url=jdbc:mysql://localhost:3307/termdb
-spring.datasource.username=root
-spring.datasource.password=
-- embeded tomcat
-server.address=0.0.0.0
-server.port=8080
-- sparql setting
-sparql.endpoint.url=http://localhost:8888/sparql
-ontology.gbads.prefix=https://gbadske.org/ontologies/2024/2/SpeciesTerm#
-- webservices api username passwords setting
-gbads.api.username=le
-gbads.api.password=1234
+1. database setting
+- spring.datasource.url=jdbc:mysql://localhost:3307/termdb
+- spring.datasource.username=root
+- spring.datasource.password=
+2. embeded tomcat
+- server.address=0.0.0.0
+- server.port=8080
+3. sparql setting
+- sparql.endpoint.url=http://localhost:8888/sparql
+- ontology.gbads.prefix=https://gbadske.org/ontologies/2024/2/SpeciesTerm#
+4. webservices api username passwords setting
+- gbads.api.username=le
+- gbads.api.password=1234
 
 ## Project notes
 1. IDE: 
