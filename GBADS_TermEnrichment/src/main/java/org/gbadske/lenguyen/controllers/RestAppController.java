@@ -1,11 +1,9 @@
 package org.gbadske.lenguyen.controllers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.gbadske.lenguyen.beans.EnrichedTerm;
 import org.gbadske.lenguyen.beans.Term;
 import org.gbadske.lenguyen.beans.TermDtoInput;
 import org.gbadske.lenguyen.beans.TermDtoOutput;
@@ -23,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+
+/**
+ * This class provides the web API for the term enrichment.
+ */
+
 @RestController
 @RequestMapping("/api")
 public class RestAppController {
@@ -31,10 +34,68 @@ public class RestAppController {
 	@Autowired
 	SparqlEndPointRepository  eda;
 
+	
 	/**
+	 * Delete  a species term in the database based on the id
+	 * return number of deleted records
+	 * @param Long id
+	 * @return String number deleted records
+	 */
+	@PutMapping("/deleteSpeciesTermById")
+	public String deleteSpeciesTermById(@RequestBody Long id) {
+		Long c = da.count();
+		da.deleteById(id);
+		return "Number deleted Records: " + (c - da.count());
+	}
+	
+	
+	/**
+	 * Delete  species terms in the database based on the id list
+	 * return number of deleted records
+	 * @param List<Long> idList
+	 * @return String number of deleted records
+	 */
+	@PutMapping("/deleteSpeciesTermByIdList")
+	public String deleteSpeciesTermByIdList(@RequestBody List<Long> idList) {
+		Long c = da.count();
+		da.deleteAllById(idList);
+		return "Number deleted Records: " + (c - da.count());
+	}
+	
+	/**
+	 * Delete all species term in the database
+	 * return number of record on the database
+	 */
+	@PutMapping("/deleteAllSpeciesTerms")
+	public String deleteAllSpeciesTerms() {
+		da.deleteAll();
+		return "Number of Records: " + da.count();
+	}
+	
+	
+	/**
+	 * Find a term by id. Return a term otherwise null.
+	 * @param id
+	 * @return Term 
+	 */
+	@GetMapping("/findTermById")
+	public Term findTermById(@RequestBody Long id) {
+		return da.findById(id).get();
+	}
+	/**
+	 * List all terms of all species
+	 * @return List<String> allUniqueNames
+	 */
+	@GetMapping("/listAllTerms")
+	public List<Term> findAllTerm(){
+		return da.findAll();
+	}
+	
+	 /**
 	 * List all uniques name of all species
 	 * @return List<String> allUniqueNames
 	 */
+	
 	@GetMapping("/list")
 	public List<String> getAllUniqueSpecies() {
 		return da.findAllUniqueSpecies();
@@ -42,8 +103,9 @@ public class RestAppController {
 
 	/**
 	 * This api return the enriched term based on the inputs species, countries, and years
-	 * @param term
-	 * @return termDtoOuput
+	 * if species or countries or year are empty, it will return records associated with all species and all countries and all years.
+	 * @param TermDtoInput term
+	 * @return TermDtoOutput termDtoOuput
 	 * @throws JsonMappingException
 	 * @throws JsonProcessingException
 	 */
@@ -91,28 +153,49 @@ public class RestAppController {
 		return output;
 	}
 
-	@PutMapping("/insertSpeciesTerm")
-	public String insertSpeciesTerm(@RequestBody Term speciesTerm) {
+
+	
+	/**
+	 * Insert a species term if the species term exists, it updates the term in the database
+	 * return number of record on the database
+	 * @param Term speciesTerm
+	 * @return String number of records
+	 */
+	@PutMapping("/insertUpdateSpeciesTerm")
+	public String insertUpdateSpeciesTerm(@RequestBody Term speciesTerm) {
 		da.save(speciesTerm);
 		return "Total Records: " + da.count();
 	}
 
-	@PutMapping("/insertMultipleSpeciesTerm")
-	public String insertMultipleSpeciesTerm(@RequestBody List<Term> speciesTerm) {
+	
+	/**
+	 * Insert a species term lists if the species term list exists, it updates the list terms in the database
+	 * return number of record on the database
+	 * @param speciesTerm
+	 * @return String number of records
+	 */
+	@PutMapping("/insertUpdateSpeciesTerms")
+	public String insertUpdateSpeciesTerms(@RequestBody List<Term> speciesTerm) {
 		da.saveAll(speciesTerm);
 		return "Total Records: " + da.count();
 	}
 	
+
+	
+	/**
+	 * Insert all species terms into the database from sparql endpoint given the super class.
+	 * return number of record on the database
+	 * @param String superClass
+	 * @return String numberOfRecords
+	 */
 	@PutMapping("/insertAllSpeciesTerm")
-	public String insertAllSpeciesTerm() {
-		//GetAllSpeciesTerm From sparql endpoint
-		//List<Term>da.findAll();
-		//da.saveAll(speciesTerm);
-		System.out.println("CALL ***********************************");
-		List<Term> termList = eda.getAllSpecies("All_Cattle");
+	public String insertAllSpeciesTerm(@RequestBody String superClass) {
+		System.out.println("Start inserting ***********************************");
+		List<Term> termList = eda.getAllSpecies(superClass);
 		da.saveAll(termList);
+		System.out.println("Finish inserting ***********************************");
 		
-		return "Total Records: " + termList.size() + "MySQL size = " + da.count();
+		return "Total Records: " + da.count();
 	}
 	
 	

@@ -13,6 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+
+/**
+ * This class provides data access layer for the SPARQL endpoints
+ */
+
+
 @Repository
 public class SparqlEndPointRepository {
 	//prefix of the ontology
@@ -25,6 +31,13 @@ public class SparqlEndPointRepository {
 	@Autowired
 	SPARQLCreateQuery query;
 	
+	
+	/**
+	 * This method gets all species term of a given superClass
+	 * It returns a List of terms
+	 * @param String superClass
+	 * @return List<Term>
+	 */
 	public List<Term> getAllSpecies(String superClass){
 		List<Term> termList = new ArrayList<>();
 		String queryString = query.createQueryGetAllSpecies(superClass);
@@ -43,7 +56,8 @@ public class SparqlEndPointRepository {
 		    term.setTermYear(e.getValue("year").stringValue());
 		    term.setDataSource(e.getValue("datasource").stringValue());
 		    term.setSuperClass(superClass);
-		    term.setOntologyVersion("version 1");
+		    term.setOntologyVersion("version 1 " + prefix);
+		    term.setDescription("The semantics of a term depends on the ontology version");
 		    term.setTermId(0L);
 		    termList.add(term);
 		});

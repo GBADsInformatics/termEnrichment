@@ -22,6 +22,10 @@ import org.eclipse.rdf4j.model.vocabulary.XSD;
 
 import lombok.Data;
 
+
+/**
+ * This class is used to generate SPARQL queries
+ */
 @Service
 @Data
 public class SPARQLCreateQuery {

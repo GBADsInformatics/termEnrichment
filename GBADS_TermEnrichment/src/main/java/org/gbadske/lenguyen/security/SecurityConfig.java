@@ -1,5 +1,6 @@
 package org.gbadske.lenguyen.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -17,9 +18,15 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
+	
+	@Value("${gbads.api.username}")
+	String userName;
+	@Value("${gbads.api.password}")
+	String password;
+	
     @Bean
     public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails admin = User.withUsername("le@uoguelph.ca").password(passwordEncoder.encode("gbads2024!"))
+        UserDetails admin = User.withUsername(userName).password(passwordEncoder.encode(password))
                 .roles("USER", "ADMIN").build();
         return new InMemoryUserDetailsManager(admin);
     }
@@ -40,8 +47,14 @@ public class SecurityConfig{
                   		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/v3/api-docs/**")).permitAll())
                 		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/list")).permitAll())
                 		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/postGetEnrichedTerm")).permitAll())
-                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/insertSpeciesTerm")).permitAll())
-                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/insertAllSpeciesTerm")).permitAll())
+                		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/insertAllSpeciesTerm")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/insertUpdateSpeciesTerm")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/insertUpdateSpeciesTerms")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/deleteAllSpeciesTerms")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/deleteSpeciesTermById")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/deleteSpeciesTermByIdList")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/findTermById")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/listAllTerms")).authenticated())
                         .httpBasic(Customizer.withDefaults()).formLogin(Customizer.withDefaults());
         return http.build();
     }

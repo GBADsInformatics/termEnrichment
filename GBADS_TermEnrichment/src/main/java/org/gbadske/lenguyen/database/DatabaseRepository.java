@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 
 
 
+
+/**
+ * This class provides database access layer operations
+ */
 @Repository
 public interface DatabaseRepository extends ListCrudRepository<Term, Long>{
 	
@@ -25,7 +29,7 @@ public interface DatabaseRepository extends ListCrudRepository<Term, Long>{
 	@Query("select t from Term t where t.country in ?1 and t.termYear in ?2 and t.superClass in ?3")
 	public List<Term> findTermWithCountryYearSuperClass(List<String> countries, List<String> years, List<String> superClasses);
 	
-	@Query("select t.species from Term t where t.country in ?1 and t.termYear in ?2 and t.superClass in ?3")
+	@Query("select distinct t.species from Term t where t.country in ?1 and t.termYear in ?2 and t.superClass in ?3")
 	public List<String> findSpeciesWithCountryYearSuperClass(List<String> countries, List<String> years, List<String> superClasses);
 	
 	
