@@ -13,8 +13,8 @@
 ## Quick start
 
 **Deployment**
-Change **application.properties** 
-These properties need to be changed.
+- Change **application.properties** 
+- These properties need to be changed.
 1. database setting
 - spring.datasource.url=jdbc:mysql://localhost:3307/termdb
 - spring.datasource.username=root
