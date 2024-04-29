@@ -5,8 +5,18 @@ on:
   workflow_dispatch:
   
 jobs:
+  commit-hash:
+    name: Commit SHA
+    runs-on: ubuntu-latest
+    outputs:
+      sha7: ${{ steps.commit-hash.outputs.sha7 }}
+    steps:
+      - name: Get Commit SHA
+        id: commit-hash
+        run: echo "sha7=$(echo ${GITHUB_SHA} | cut -c1-7)" >> "$GITHUB_OUTPUT"
+
   docker:
-    uses: GBADsInformatics/DevopsWorkflows/.github/workflows/docker.yml@main
+    uses: GBADsInformatics/DevopsWorkflows/.github/workflows/docker.yml@v2.0
     secrets: inherit
     with:
       IMAGE_NAME: term-enrichment-api
@@ -14,8 +24,21 @@ jobs:
       DOCKERFILE: ./GBADS_TermEnrichment/Dockerfile
 
   aws:
-    needs: docker
-    uses: GBADsInformatics/DevopsWorkflows/.github/workflows/aws.yml@main
-    secrets: inherit
+    needs: [commit-hash, docker]
+    uses: GBADsInformatics/DevopsWorkflows/.github/workflows/aws.yml@v2.0
+    secrets:
+      template-input: >-
+        ApplicationName=term-enrich-api,
+        DockerURI=gbadsinformatics/term-enrichment-api:${{ needs.commit-hash.outputs.sha7 }},
+        BaseURL=/ontologies,
+        ListenerRulePriority=27,
+        MYSQLHOST=${{ vars.MYSQL_HOST }},
+        MYSQLDATABASE=${{ vars.MYSQL_DATABASE }},
+        MYSQLUSER=${{ vars.MYSQL_USER }},
+        MYSQLPASSWORD=${{ secrets.MYSQL_PASSWORD }},
+        APIUSER=${{ vars.API_USER }},
+        APIPASSWORD=${{ secrets.API_PASSWORD }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     with:
-      SERVICE_NAME: term-enrich-api-service
+      stack-name: term-enrich-api-stack
