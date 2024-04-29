@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
  */
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("${api.basePath}")
 public class RestAppController {
 	@Autowired
 	DatabaseRepository da;

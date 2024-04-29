@@ -41,6 +41,17 @@
 6. To Run the project: Right Click the project and Run AS Spring Boot APP
 7. To Generate the JAR: Right Click the project and Run AS Maven Verify
 
+## Running in docker
+```
+docker run \
+	-p 80:80 \
+	-e MYSQL_HOST=hosturl \
+	-e MYSQL_DATABASE=database-name \
+	-e MYSQL_USER=username \
+	-e MYSQL_PASSWORD=password \
+	-e BASE_URL=/api \
+	gbadsinformatics/term-enrichment-api
+```
 
 ## Status
 
