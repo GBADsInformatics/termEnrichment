@@ -23,6 +23,8 @@ public class SecurityConfig{
 	String userName;
 	@Value("${gbads.api.password}")
 	String password;
+	@Value("${api.basePath}")
+	String basePath;
 	
     @Bean
     public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
@@ -41,21 +43,25 @@ public class SecurityConfig{
         //Builder pattern.
         http.csrf(c -> c.disable()).cors(c->c.disable())
                 .headers(header -> header.frameOptions(frame -> frame.disable()))
-                  		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/swagger-ui/**")).permitAll())
-                  		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/javainuse-openapi/**")).permitAll())
-                  		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/v1/auth/**")).permitAll())
-                  		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/v3/api-docs/**")).permitAll())
-                		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/list")).permitAll())
-                		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/postGetEnrichedTerm")).permitAll())
-                		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/insertAllSpeciesTerm")).authenticated())
-                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/insertUpdateSpeciesTerm")).authenticated())
-                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/insertUpdateSpeciesTerms")).authenticated())
-                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/deleteAllSpeciesTerms")).authenticated())
-                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/deleteSpeciesTermById")).authenticated())
-                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/deleteSpeciesTermByIdList")).authenticated())
-                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/findTermById")).authenticated())
-                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern("/api/listAllTerms")).authenticated())
-                        .httpBasic(Customizer.withDefaults()).formLogin(Customizer.withDefaults());
+                  		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/swagger-ui/**")).permitAll())
+                  		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/javainuse-openapi/**")).permitAll())
+                  		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/v1/auth/**")).permitAll())
+                  		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/docs")).permitAll())
+                  		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/v3/api-docs/**")).permitAll())
+                		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/list")).permitAll())
+                		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/postGetEnrichedTerm")).permitAll())
+                		.authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/insertAllSpeciesTerm")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/insertUpdateSpeciesTerm")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/insertUpdateSpeciesTerms")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/deleteAllSpeciesTerms")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/deleteSpeciesTermById")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/deleteSpeciesTermByIdList")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/findTermById")).authenticated())
+                        .authorizeHttpRequests(requests -> requests.requestMatchers(mvc.pattern(basePath + "/listAllTerms")).authenticated())
+                        .httpBasic(Customizer.withDefaults()).formLogin(form -> form
+                            .loginPage(basePath + "/login")
+                            .permitAll()
+                        );
         return http.build();
     }
     @Bean

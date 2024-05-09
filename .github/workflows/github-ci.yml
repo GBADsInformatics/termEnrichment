@@ -30,7 +30,7 @@ jobs:
       template-input: >-
         ApplicationName=term-enrich-api,
         DockerURI=gbadsinformatics/term-enrichment-api:${{ needs.commit-hash.outputs.sha7 }},
-        BaseURL=/ontologies,
+        BaseURL=/enrichment-api,
         ListenerRulePriority=27,
         MYSQLHOST=${{ vars.MYSQL_HOST }},
         MYSQLDATABASE=${{ vars.MYSQL_DATABASE }},
