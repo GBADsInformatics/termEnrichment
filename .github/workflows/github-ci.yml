@@ -37,7 +37,8 @@ jobs:
         MYSQLUSER=${{ vars.MYSQL_USER }},
         MYSQLPASSWORD=${{ secrets.MYSQL_PASSWORD }},
         APIUSER=${{ vars.API_USER }},
-        APIPASSWORD=${{ secrets.API_PASSWORD }}
+        APIPASSWORD=${{ secrets.API_PASSWORD }},
+        CPU=512
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     with:
