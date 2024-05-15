@@ -27,6 +27,9 @@ public class SparqlEndPointRepository {
 	//SPARQL end point url
 	@Value("${sparql.endpoint.url}")
 	private String sparqlEndpoint;
+	//SPARQL end point url
+	@Value("${spring.jpa.properties.hibernate.jdbc.time_out}")
+	private int queryTimeout;
 	
 	@Autowired
 	SPARQLCreateQuery query;
@@ -44,9 +47,10 @@ public class SparqlEndPointRepository {
 		
 		org.eclipse.rdf4j.repository.Repository repo = new SPARQLRepository(sparqlEndpoint);
 		
-		RepositoryConnection conn = repo.getConnection();	
+		RepositoryConnection conn = repo.getConnection(); 
 		
 		TupleQuery query = conn.prepareTupleQuery(queryString);
+		query.setMaxExecutionTime(queryTimeout);
 		
 		List<BindingSet> result = QueryResults.asList(query.evaluate());
 		result.forEach(e-> {
