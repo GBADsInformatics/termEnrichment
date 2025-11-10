@@ -43,3 +43,4 @@ jobs:
     with:
       stack-name: term-enrich-api-stack
       AWS-REGION: ca-central-1
+      stack-update-timeout: 5
